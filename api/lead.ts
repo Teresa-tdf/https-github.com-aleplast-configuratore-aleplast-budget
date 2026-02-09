@@ -35,6 +35,224 @@ const getClientIp = (req: any) => {
   return req.socket?.remoteAddress || 'unknown';
 };
 
+const PRODUCT_CARDS: Record<
+  string,
+  { name: string; material: string; type: string; description: string; features: string[] }
+> = {
+  // PVC Windows
+  prolux: {
+    name: 'Prolux',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Design arrotondato e profilo ridotto per massima luminosità.',
+    features: ['+22% luce naturale', 'Maniglia centrale simmetrica', 'Profili sottili', 'Ideale per ristrutturazioni'],
+  },
+  'prolux-evolution': {
+    name: 'Prolux Evolution',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Versione squadrata e minimale della Prolux, con nodo centrale ridotto.',
+    features: ['Design squadrato', 'Nodo centrale ridotto', 'Alta luminosità', 'Look contemporaneo'],
+  },
+  'prolux-plus': {
+    name: 'Prolux Plus',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Vetro incollato e design asimmetrico con maniglia decentrata.',
+    features: ['Vetro incollato', 'Design asimmetrico', 'Profili slim', 'Prestazioni elevate'],
+  },
+  'prolux-plus-symmetric': {
+    name: 'Prolux +',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Versione simmetrica senza fermavetro: massimo minimalismo e luce.',
+    features: ['Senza fermavetro', 'Design simmetrico', 'Massima luce', 'Tre guarnizioni'],
+  },
+  'platinium-plus': {
+    name: 'Platinium Plus',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Linee morbide e stile classico con profilo ribassato.',
+    features: ['Profilo ribassato', 'Stile classico', 'Più vetro', 'Buon isolamento'],
+  },
+  squareline: {
+    name: 'Squareline',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Design moderno e squadrato con profili sottili e vetro extra-light.',
+    features: ['Linee nette', 'Profilo sottile', 'Alta luminosità', 'Ottimo isolamento'],
+  },
+  'prismatic-evolution': {
+    name: 'Prismatic Evolution',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Nodo centrale ridotto e simmetria perfetta con isolamento ai massimi livelli.',
+    features: ['Nodo centrale ridotto', 'Simmetria totale', 'Uw fino a 0,78', 'Alta luminosità'],
+  },
+  'winergetic-passive': {
+    name: 'Winergetic Premium Passive',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Isolamento estremo con Aerogel e profilo 82 mm per case passive.',
+    features: ['Aerogel Space Block', 'Uw fino a 0,6–0,7', 'CasaClima Gold', 'Triplo vetro'],
+  },
+  'koncept-plus': {
+    name: 'Koncept Plus',
+    material: 'PVC',
+    type: 'Finestra',
+    description: 'Soluzione equilibrata tra prestazioni e prezzo con design sobrio.',
+    features: ['Ottimo rapporto qualità/prezzo', 'Design lineare', 'Buon isolamento', 'Versatile'],
+  },
+
+  // Aluminum Windows
+  titano: {
+    name: 'Titano',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Linea robusta con taglio termico e design moderno.',
+    features: ['Taglio termico', 'Design moderno', 'Robustezza', 'Ottimo isolamento'],
+  },
+  'titano-evo': {
+    name: 'Titano EVO',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Profili sottili e maniglia centrale per simmetria e luce.',
+    features: ['Nodo centrale ridotto', 'Massima luce', 'Uw fino a 0,78', 'Design minimale'],
+  },
+  'titano-oc': {
+    name: 'Titano OC',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Anta a scomparsa esterna per look ultra-minimal.',
+    features: ['Anta a scomparsa', 'Look tutto vetro', 'Nodo ridotto', 'Design minimal'],
+  },
+  'titano-evo-oc': {
+    name: 'Titano EVO OC',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Massima trasparenza e simmetria con profili ridotti.',
+    features: ['EVO + OC', 'Luce massima', 'Uw fino a 0,77', 'Top di gamma'],
+  },
+  'titano-steel': {
+    name: 'Titano Steel',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Finiture effetto acciaio e look industriale di pregio.',
+    features: ['Effetto acciaio', 'Design industrial', 'Alta resistenza', 'Ottimo isolamento'],
+  },
+  futural: {
+    name: 'Futural',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Alluminio solido e affidabile con taglio termico.',
+    features: ['Struttura robusta', 'Taglio termico', 'Design sobrio', 'Durabilità elevata'],
+  },
+  'futural-oc': {
+    name: 'Futural OC',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Versione complanare con profili sottili e grande luminosità.',
+    features: ['Anta a scomparsa', 'Nodo ridotto', 'Look minimale', 'Buon isolamento'],
+  },
+  'prolux-alu': {
+    name: 'Prolux ALU',
+    material: 'Alluminio',
+    type: 'Finestra',
+    description: 'Design minimal con vetro incollato e profili ultra-sottili.',
+    features: ['Vetro incollato', 'Anta a scomparsa', 'Profilo minimale', 'Design premium'],
+  },
+
+  // PVC Sliding
+  'prolux-slide': {
+    name: 'Prolux Slide',
+    material: 'PVC',
+    type: 'Scorrevole',
+    description: 'Scorrevole evoluto con tenuta ermetica e grande luminosità.',
+    features: ['Scorrimento leggero', 'Ottima tenuta', 'Nodo ridotto', 'Alta luminosità'],
+  },
+  'hst-motion': {
+    name: 'HST Motion',
+    material: 'PVC',
+    type: 'Scorrevole',
+    description: 'Alzante scorrevole per grandi vetrate con profili ribassati.',
+    features: ['Grandi dimensioni', 'Soglia ribassata', 'Scorrimento fluido', 'Luce massima'],
+  },
+  'hst-premium': {
+    name: 'HST Premium',
+    material: 'PVC',
+    type: 'Scorrevole',
+    description: 'Alzante scorrevole robusto per aperture monumentali.',
+    features: ['Aperture grandi', 'Robustezza', 'Triplo vetro', 'Comfort elevato'],
+  },
+  psk: {
+    name: 'Traslante PSK',
+    material: 'PVC',
+    type: 'Scorrevole',
+    description: 'Sistema scorrevole-vasistas salvaspazio con buona tenuta.',
+    features: ['Ribalta + scorrevole', 'Salvaspazio', 'Buona tenuta', 'Versatile'],
+  },
+  ekosol: {
+    name: 'Ekosol',
+    material: 'PVC',
+    type: 'Scorrevole',
+    description: 'Scorrevole semplice ed economico per aperture medie.',
+    features: ['Soluzione economica', 'Semplice da usare', 'Buon isolamento', 'Ingombro ridotto'],
+  },
+
+  // Aluminum Sliding
+  skyline: {
+    name: 'Skyline',
+    material: 'Alluminio',
+    type: 'Scorrevole',
+    description: 'Minimal frame per massima trasparenza e impatto architettonico.',
+    features: ['Profili quasi invisibili', 'Design premium', 'Grandi vetrate', 'Massima luce'],
+  },
+  'aluslide-lux': {
+    name: 'Aluslide LUX',
+    material: 'Alluminio',
+    type: 'Scorrevole',
+    description: 'Scorrevole super luminoso con nodo centrale ridotto.',
+    features: ['Nodo centrale sottile', 'Alta luminosità', 'Design moderno', 'Scorrevolezza'],
+  },
+  'aluslide-pro': {
+    name: 'Aluslide PRO',
+    material: 'Alluminio',
+    type: 'Scorrevole',
+    description: 'Scorrevole robusto per grandi aperture con ottima manovrabilità.',
+    features: ['Ante grandi', 'Scorrimento fluido', 'Struttura robusta', 'Design pulito'],
+  },
+  'ms-slide': {
+    name: 'MS Slide',
+    material: 'Alluminio',
+    type: 'Scorrevole',
+    description: 'Scorrevole compatto per aperture medio-grandi con ingombro ridotto.',
+    features: ['Compatto', 'Facile da usare', 'Ingombro minimo', 'Buon rapporto qualità/prezzo'],
+  },
+
+  // Doors
+  'portoncini-pvc': {
+    name: 'Portoncini PVC Oknoplast',
+    material: 'PVC',
+    type: 'Portoncino',
+    description: 'Ingressi in PVC con buon isolamento, design personalizzabile e ottima sicurezza.',
+    features: ['Isolamento termico', 'Design personalizzabile', 'Sicurezza multipunto', 'Ampia scelta finiture'],
+  },
+  cosmo: {
+    name: 'Portoncini PVC Cosmo',
+    material: 'PVC',
+    type: 'Portoncino',
+    description: 'Linea premium con pannelli HPL e isolamento elevato.',
+    features: ['Uw fino a 1,2', 'Pannelli HPL', 'Sicurezza elevata', 'Design moderno'],
+  },
+  tenvis: {
+    name: 'Portoncini Tenvis',
+    material: 'Alluminio',
+    type: 'Portoncino',
+    description: 'Isolamento top, serratura automatica multipunto e design premium.',
+    features: ['Ud fino a 0,84', 'Serratura automatica', 'Alta sicurezza', 'Design di pregio'],
+  },
+};
+
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -115,6 +333,30 @@ export default async function handler(req: any, res: any) {
     `Risultato: ${payload.resultProductId ?? 'n/a'}`,
   ].join('\n');
 
+  const resultCard = payload.resultProductId
+    ? PRODUCT_CARDS[payload.resultProductId]
+    : undefined;
+
+  const userEmailText = resultCard
+    ? [
+        `Ciao ${sanitize(payload.firstName)},`,
+        '',
+        'Ecco la tua scheda prodotto personalizzata Aleplast:',
+        `${resultCard.name} (${resultCard.material} - ${resultCard.type})`,
+        resultCard.description,
+        '',
+        'Punti di forza:',
+        ...resultCard.features.map(f => `- ${f}`),
+        '',
+        'Per qualsiasi domanda, rispondi a questa email o contattaci.',
+      ].join('\n')
+    : [
+        `Ciao ${sanitize(payload.firstName)},`,
+        '',
+        'Grazie per aver completato il configuratore Aleplast.',
+        'Ti contatteremo a breve con la tua scheda prodotto personalizzata.',
+      ].join('\n');
+
   const emailResponse = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -131,6 +373,24 @@ export default async function handler(req: any, res: any) {
 
   if (!emailResponse.ok) {
     return res.status(500).json({ error: 'Failed to send email' });
+  }
+
+  const userEmailResponse = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${resendApiKey}`,
+    },
+    body: JSON.stringify({
+      from: resendFromEmail,
+      to: sanitize(payload.email),
+      subject: 'La tua scheda prodotto Aleplast',
+      text: userEmailText,
+    }),
+  });
+
+  if (!userEmailResponse.ok) {
+    return res.status(500).json({ error: 'Failed to send user email' });
   }
 
   return res.status(200).json({ ok: true });
