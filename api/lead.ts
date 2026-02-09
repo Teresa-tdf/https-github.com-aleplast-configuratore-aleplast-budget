@@ -399,7 +399,9 @@ export default async function handler(req: any, res: any) {
             </div>
             <p style="margin-top:14px; color:#9fb4d6; font-size:13px;">
               Per qualsiasi domanda, rispondi a questa email o contattaci:
-              Tel. 079 9738992 • WhatsApp 351 564 5413
+              <a href="tel:+390799738992" style="color:#9fb4d6; text-decoration:underline;">Tel. 079 9738992</a>
+              •
+              <a href="https://wa.me/393515645413" style="color:#9fb4d6; text-decoration:underline;">WhatsApp 351 564 5413</a>
             </p>
           </div>
         </div>
