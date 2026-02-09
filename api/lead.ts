@@ -263,6 +263,7 @@ export default async function handler(req: any, res: any) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const resendFromEmail = process.env.RESEND_FROM_EMAIL;
   const resendToEmail = process.env.RESEND_TO_EMAIL;
+  const resendReplyTo = process.env.RESEND_REPLY_TO || 'info@aleplast.it';
 
   if (!supabaseUrl || !serviceRoleKey) {
     return res.status(500).json({ error: 'Server not configured' });
@@ -431,6 +432,7 @@ export default async function handler(req: any, res: any) {
     body: JSON.stringify({
       from: resendFromEmail,
       to: resendToEmail,
+      reply_to: resendReplyTo,
       subject: 'Nuovo lead dal configuratore',
       text: emailBody,
     }),
@@ -451,6 +453,7 @@ export default async function handler(req: any, res: any) {
     body: JSON.stringify({
       from: resendFromEmail,
       to: sanitize(payload.email),
+      reply_to: resendReplyTo,
       subject: 'La tua scheda prodotto Aleplast',
       text: userEmailText,
       html: userEmailHtml,
