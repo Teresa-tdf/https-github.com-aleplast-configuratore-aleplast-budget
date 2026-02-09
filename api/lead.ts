@@ -437,6 +437,8 @@ export default async function handler(req: any, res: any) {
   });
 
   if (!emailResponse.ok) {
+    const errorText = await emailResponse.text();
+    console.error('Resend admin email error:', emailResponse.status, errorText);
     return res.status(500).json({ error: 'Failed to send email' });
   }
 
@@ -456,7 +458,9 @@ export default async function handler(req: any, res: any) {
   });
 
   if (!userEmailResponse.ok) {
-    return res.status(500).json({ error: 'Failed to send user email' });
+    const errorText = await userEmailResponse.text();
+    console.error('Resend user email error:', userEmailResponse.status, errorText);
+    // Do not fail the request if user email fails; lead already saved.
   }
 
   return res.status(200).json({ ok: true });
