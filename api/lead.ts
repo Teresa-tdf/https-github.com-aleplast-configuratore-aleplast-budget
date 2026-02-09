@@ -396,6 +396,9 @@ export default async function handler(req: any, res: any) {
               <a href="${baseUrl}" style="display:inline-block; background:#2E74B5; color:#ffffff; text-decoration:none; padding:12px 18px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase;">
                 Richiedi preventivo
               </a>
+              <a href="https://wa.me/393515645413" style="display:inline-block; background:#22c55e; color:#ffffff; text-decoration:none; padding:12px 16px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase; margin-left:8px;">
+                WhatsApp
+              </a>
             </div>
             <p style="margin-top:14px; color:#9fb4d6; font-size:13px;">
               Per qualsiasi domanda, rispondi a questa email o contattaci:
