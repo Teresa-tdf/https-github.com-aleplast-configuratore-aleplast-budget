@@ -398,7 +398,8 @@ export default async function handler(req: any, res: any) {
               </a>
             </div>
             <p style="margin-top:14px; color:#9fb4d6; font-size:13px;">
-              Per qualsiasi domanda, rispondi a questa email o contattaci.
+              Per qualsiasi domanda, rispondi a questa email o contattaci:
+              Tel. 079 9738992 • WhatsApp 351 564 5413
             </p>
           </div>
         </div>
