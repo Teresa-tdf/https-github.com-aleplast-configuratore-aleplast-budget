@@ -19,11 +19,13 @@ import {
 type Step = 'landing' | 'quiz' | 'lead-form' | 'result' | 'thank-you';
 
 type ProductType = 'window' | 'sliding' | 'door';
+type MaterialType = 'pvc' | 'aluminum';
 
 interface Product {
   id: string;
   name: string;
   type: ProductType;
+  material: MaterialType;
   description: string;
   features: string[];
   scores: {
@@ -33,6 +35,7 @@ interface Product {
     value: number;
     acoustic: number;
   };
+  imageUrl?: string;
   imagePlaceholder: React.ReactNode;
 }
 
@@ -48,6 +51,7 @@ interface QuestionOption {
     acoustic: number;
   }>;
   typeFilter?: ProductType; 
+  materialFilter?: MaterialType;
 }
 
 interface Question {
@@ -94,58 +98,314 @@ const Icons = {
 // --- Data ---
 
 const PRODUCTS: Product[] = [
+  // --- PVC Windows ---
   {
     id: 'prolux',
-    name: 'Oknoplast Prolux',
+    name: 'Prolux',
     type: 'window',
-    description: 'La finestra che fa entrare fino al 22% di luce in più grazie al profilo ridotto ed elegante.',
-    features: ['Profilo snello', 'Più luce naturale', 'Design simmetrico', 'Ideale per ristrutturazioni'],
+    material: 'pvc',
+    description: 'Design arrotondato e profilo ridotto per massima luminosità. Maniglia centrale simmetrica e linee morbide per ambienti classici.',
+    features: ['+22% luce naturale', 'Maniglia centrale simmetrica', 'Profili sottili', 'Ottima per ristrutturazioni'],
     scores: { light: 10, thermal: 7, design: 8, value: 7, acoustic: 7 },
+    imageUrl: '/products/prolux.png',
     imagePlaceholder: <Icons.Window />
   },
   {
-    id: 'prismatic',
-    name: 'Oknoplast Prismatic',
+    id: 'prolux-evolution',
+    name: 'Prolux Evolution',
     type: 'window',
-    description: 'Il perfetto equilibrio tra design moderno e prestazioni termiche eccezionali.',
-    features: ['Linee squadrate', 'Isolamento superiore', 'Stabilità strutturale', 'Design moderno'],
-    scores: { light: 8, thermal: 9, design: 10, value: 7, acoustic: 8 },
+    material: 'pvc',
+    description: 'Versione squadrata e minimale della Prolux, con nodo centrale ridotto e profili sottili per luce e simmetria.',
+    features: ['Design squadrato', 'Nodo centrale ridotto', 'Alta luminosità', 'Look contemporaneo'],
+    scores: { light: 10, thermal: 8, design: 9, value: 6, acoustic: 8 },
+    imageUrl: '/products/prolux-evolution.png',
     imagePlaceholder: <Icons.Window />
   },
   {
-    id: 'winergetic',
+    id: 'prolux-plus',
+    name: 'Prolux Plus',
+    type: 'window',
+    material: 'pvc',
+    description: 'Vetro incollato e design asimmetrico con maniglia decentrata. Estetica “tutto vetro” e grande luminosità.',
+    features: ['Vetro incollato', 'Design asimmetrico', 'Profili slim', 'Prestazioni elevate'],
+    scores: { light: 10, thermal: 8, design: 9, value: 6, acoustic: 8 },
+    imageUrl: '/products/prolux-plus.png',
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'prolux-plus-symmetric',
+    name: 'Prolux +',
+    type: 'window',
+    material: 'pvc',
+    description: 'Versione simmetrica senza fermavetro: massimo minimalismo e luce, con maniglia centrale e profilo ultra-sottile.',
+    features: ['Senza fermavetro', 'Design simmetrico', 'Massima luce', 'Tre guarnizioni'],
+    scores: { light: 10, thermal: 8, design: 9, value: 6, acoustic: 8 },
+    imageUrl: '/products/prolux-plus-symmetric.png',
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'platinium-plus',
+    name: 'Platinium Plus',
+    type: 'window',
+    material: 'pvc',
+    description: 'Linee morbide e stile classico con profilo ribassato per più vetro. Ideale per ristrutturazioni tradizionali.',
+    features: ['Profilo ribassato', 'Stile classico', 'Più vetro', 'Buon isolamento'],
+    scores: { light: 7, thermal: 7, design: 6, value: 7, acoustic: 6 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'squareline',
+    name: 'Squareline',
+    type: 'window',
+    material: 'pvc',
+    description: 'Design moderno e squadrato con profili sottili e vetro extra-light. Equilibrio tra stile e prestazioni.',
+    features: ['Linee nette', 'Profilo sottile', 'Alta luminosità', 'Ottimo isolamento'],
+    scores: { light: 7, thermal: 8, design: 8, value: 6, acoustic: 7 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'prismatic-evolution',
+    name: 'Prismatic Evolution',
+    type: 'window',
+    material: 'pvc',
+    description: 'Prismatic con nodo centrale ridotto e simmetria perfetta. Più luce mantenendo isolamento ai massimi livelli.',
+    features: ['Nodo centrale ridotto', 'Simmetria totale', 'Uw fino a 0,78', 'Alta luminosità'],
+    scores: { light: 7, thermal: 10, design: 7, value: 5, acoustic: 9 },
+    imageUrl: '/products/prismatic-evolution.png',
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'winergetic-passive',
     name: 'Winergetic Premium Passive',
     type: 'window',
-    description: 'Il massimo dell’isolamento termico per case a basso consumo e passive.',
-    features: ['Triplo vetro di serie', 'Barriera spaziale', 'Massimo risparmio energetico', 'Certificata CasaClima'],
-    scores: { light: 6, thermal: 10, design: 6, value: 6, acoustic: 10 },
+    material: 'pvc',
+    description: 'Isolamento estremo con Aerogel e profilo 82 mm. Pensata per case passive e massima efficienza.',
+    features: ['Aerogel Space Block', 'Uw fino a 0,6–0,7', 'CasaClima Gold', 'Triplo vetro'],
+    scores: { light: 5, thermal: 10, design: 5, value: 3, acoustic: 10 },
+    imageUrl: '/products/winergetic-premium-passive.png',
     imagePlaceholder: <Icons.Window />
   },
   {
-    id: 'koncept',
-    name: 'Oknoplast Koncept',
+    id: 'koncept-plus',
+    name: 'Koncept Plus',
     type: 'window',
-    description: 'La soluzione versatile e conveniente con la qualità garantita Oknoplast.',
-    features: ['Design classico', 'Ottimo rapporto qualità/prezzo', 'Robustezza', 'Funzionalità'],
-    scores: { light: 5, thermal: 6, design: 5, value: 10, acoustic: 6 },
+    material: 'pvc',
+    description: 'Soluzione equilibrata tra prestazioni e prezzo, con design sobrio e buona efficienza termica.',
+    features: ['Ottimo rapporto qualità/prezzo', 'Design lineare', 'Buon isolamento', 'Versatile'],
+    scores: { light: 6, thermal: 7, design: 6, value: 9, acoustic: 6 },
+    imageUrl: '/products/koncept-plus.png',
+    imagePlaceholder: <Icons.Window />
+  },
+
+  // --- Aluminum Windows ---
+  {
+    id: 'titano',
+    name: 'Titano',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Linea alluminio robusta e moderna con taglio termico. Versatile e affidabile per molti contesti.',
+    features: ['Taglio termico', 'Design moderno', 'Robustezza', 'Ottimo isolamento'],
+    scores: { light: 7, thermal: 8, design: 7, value: 6, acoustic: 7 },
+    imageUrl: '/products/titano.png',
     imagePlaceholder: <Icons.Window />
   },
   {
-    id: 'hst',
-    name: 'Oknoplast HST Motion',
+    id: 'titano-evo',
+    name: 'Titano EVO',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Profilo super sottile e maniglia centrale per simmetria. Più luce con prestazioni elevatissime.',
+    features: ['Nodo centrale ridotto', 'Massima luce', 'Uw fino a 0,78', 'Design minimale'],
+    scores: { light: 9, thermal: 8, design: 9, value: 6, acoustic: 8 },
+    imageUrl: '/products/titano-evo.png',
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'titano-oc',
+    name: 'Titano OC',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Anta a scomparsa esterna: dall’esterno si vede quasi solo vetro. Estetica ultra-minimal.',
+    features: ['Anta a scomparsa', 'Look tutto vetro', 'Nodo centrale ridotto', 'Design minimal'],
+    scores: { light: 10, thermal: 7, design: 9, value: 5, acoustic: 7 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'titano-evo-oc',
+    name: 'Titano EVO OC',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Massima trasparenza e simmetria insieme: nodo centrale ridotto e anta a scomparsa.',
+    features: ['EVO + OC', 'Luce massima', 'Uw fino a 0,77', 'Design top di gamma'],
+    scores: { light: 10, thermal: 8, design: 10, value: 5, acoustic: 8 },
+    imageUrl: '/products/titano-evo-oc.png',
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'titano-steel',
+    name: 'Titano Steel',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Finiture effetto acciaio e look industriale con prestazioni elevate e profili robusti.',
+    features: ['Effetto acciaio', 'Design industrial', 'Alta resistenza', 'Ottimo isolamento'],
+    scores: { light: 8, thermal: 8, design: 9, value: 5, acoustic: 8 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'futural',
+    name: 'Futural',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Alluminio solido e affidabile con taglio termico e ottima durata nel tempo.',
+    features: ['Struttura robusta', 'Taglio termico', 'Design sobrio', 'Durabilità elevata'],
+    scores: { light: 7, thermal: 7, design: 6, value: 6, acoustic: 7 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'futural-oc',
+    name: 'Futural OC',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Versione complanare con anta a scomparsa: profili sottili e grande luminosità.',
+    features: ['Anta a scomparsa', 'Nodo centrale ridotto', 'Look minimale', 'Buon isolamento'],
+    scores: { light: 9, thermal: 6, design: 8, value: 6, acoustic: 7 },
+    imagePlaceholder: <Icons.Window />
+  },
+  {
+    id: 'prolux-alu',
+    name: 'Prolux ALU',
+    type: 'window',
+    material: 'aluminum',
+    description: 'Design minimal con vetro incollato e profili ultra-sottili. Massima luce in alluminio.',
+    features: ['Vetro incollato', 'Anta a scomparsa', 'Profilo minimale', 'Design premium'],
+    scores: { light: 10, thermal: 7, design: 10, value: 5, acoustic: 7 },
+    imageUrl: '/products/prolux-alu.png',
+    imagePlaceholder: <Icons.Window />
+  },
+
+  // --- PVC Sliding ---
+  {
+    id: 'prolux-slide',
+    name: 'Prolux Slide',
     type: 'sliding',
-    description: 'Alzante scorrevole per grandi vetrate che unisce vista panoramica e facilità d’uso.',
-    features: ['Grandi dimensioni', 'Soglia a pavimento', 'Scorrimento leggero', 'Luce massima'],
-    scores: { light: 10, thermal: 8, design: 10, value: 5, acoustic: 7 },
+    material: 'pvc',
+    description: 'Scorrevole evoluto con tenuta ermetica e grande luminosità. Ideale per grandi aperture.',
+    features: ['Scorrimento leggero', 'Ottima tenuta', 'Nodo centrale ridotto', 'Alta luminosità'],
+    scores: { light: 9, thermal: 8, design: 8, value: 6, acoustic: 7 },
     imagePlaceholder: <Icons.Sliding />
   },
   {
-    id: 'tenvis',
-    name: 'Portoncino Tenvis',
+    id: 'hst-motion',
+    name: 'HST Motion',
+    type: 'sliding',
+    material: 'pvc',
+    description: 'Alzante scorrevole per grandi vetrate con profili ribassati e massima luce.',
+    features: ['Grandi dimensioni', 'Soglia ribassata', 'Scorrimento fluido', 'Luce massima'],
+    scores: { light: 10, thermal: 8, design: 9, value: 5, acoustic: 7 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'hst-premium',
+    name: 'HST Premium',
+    type: 'sliding',
+    material: 'pvc',
+    description: 'Alzante scorrevole robusto per aperture monumentali e vetrate panoramiche.',
+    features: ['Aperture grandi', 'Robustezza', 'Triplo vetro', 'Comfort elevato'],
+    scores: { light: 9, thermal: 8, design: 8, value: 5, acoustic: 7 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'psk',
+    name: 'Traslante PSK',
+    type: 'sliding',
+    material: 'pvc',
+    description: 'Sistema scorrevole-vasistas salvaspazio con buona tenuta e versatilità d’uso.',
+    features: ['Ribalta + scorrevole', 'Salvaspazio', 'Buona tenuta', 'Versatile'],
+    scores: { light: 7, thermal: 7, design: 6, value: 7, acoustic: 6 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'ekosol',
+    name: 'Ekosol',
+    type: 'sliding',
+    material: 'pvc',
+    description: 'Scorrevole semplice ed economico per aperture medie, pratico e affidabile.',
+    features: ['Soluzione economica', 'Semplice da usare', 'Buon isolamento', 'Ingombro ridotto'],
+    scores: { light: 6, thermal: 6, design: 5, value: 9, acoustic: 5 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+
+  // --- Aluminum Sliding ---
+  {
+    id: 'skyline',
+    name: 'Skyline',
+    type: 'sliding',
+    material: 'aluminum',
+    description: 'Scorrevole minimal frame per massima trasparenza e impatto architettonico.',
+    features: ['Profili quasi invisibili', 'Design premium', 'Grandi vetrate', 'Massima luce'],
+    scores: { light: 10, thermal: 7, design: 10, value: 5, acoustic: 7 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'aluslide-lux',
+    name: 'Aluslide LUX',
+    type: 'sliding',
+    material: 'aluminum',
+    description: 'Scorrevole super luminoso con nodo centrale ridotto e grande continuità visiva.',
+    features: ['Nodo centrale sottile', 'Alta luminosità', 'Design moderno', 'Ottima scorrevolezza'],
+    scores: { light: 9, thermal: 7, design: 9, value: 6, acoustic: 7 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'aluslide-pro',
+    name: 'Aluslide PRO',
+    type: 'sliding',
+    material: 'aluminum',
+    description: 'Scorrevole robusto per grandi aperture con ottima manovrabilità.',
+    features: ['Ante grandi', 'Scorrimento fluido', 'Struttura robusta', 'Design pulito'],
+    scores: { light: 8, thermal: 7, design: 8, value: 6, acoustic: 7 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+  {
+    id: 'ms-slide',
+    name: 'MS Slide',
+    type: 'sliding',
+    material: 'aluminum',
+    description: 'Scorrevole compatto per aperture medio-grandi con ingombro ridotto.',
+    features: ['Compatto', 'Facile da usare', 'Ingombro minimo', 'Buon rapporto qualità/prezzo'],
+    scores: { light: 7, thermal: 6, design: 6, value: 7, acoustic: 6 },
+    imagePlaceholder: <Icons.Sliding />
+  },
+
+  // --- Doors ---
+  {
+    id: 'portoncini-pvc',
+    name: 'Portoncini PVC Oknoplast',
     type: 'door',
-    description: 'Sicurezza antieffrazione e design curato per l’ingresso della tua casa.',
-    features: ['Alta sicurezza', 'Isolamento termico', 'Design personalizzabile', 'Smart home ready'],
-    scores: { light: 0, thermal: 9, design: 9, value: 6, acoustic: 8 },
+    material: 'pvc',
+    description: 'Ingressi in PVC con buon isolamento, design personalizzabile e ottima sicurezza.',
+    features: ['Isolamento termico', 'Design personalizzabile', 'Sicurezza multipunto', 'Ampia scelta finiture'],
+    scores: { light: 1, thermal: 7, design: 7, value: 7, acoustic: 6 },
+    imagePlaceholder: <Icons.Door />
+  },
+  {
+    id: 'cosmo',
+    name: 'Portoncini PVC Cosmo',
+    type: 'door',
+    material: 'pvc',
+    description: 'Linea premium con pannelli HPL e isolamento elevato, pensata per chi vuole il massimo.',
+    features: ['Uw fino a 1,2', 'Pannelli HPL', 'Sicurezza elevata', 'Design moderno'],
+    scores: { light: 1, thermal: 9, design: 8, value: 5, acoustic: 8 },
+    imagePlaceholder: <Icons.Door />
+  },
+  {
+    id: 'tenvis',
+    name: 'Portoncini Tenvis',
+    type: 'door',
+    material: 'aluminum',
+    description: 'Portoncini in alluminio con isolamento top, serratura automatica multipunto e design premium.',
+    features: ['Ud fino a 0,84', 'Serratura automatica', 'Alta sicurezza', 'Design di pregio'],
+    scores: { light: 1, thermal: 9, design: 9, value: 5, acoustic: 8 },
     imagePlaceholder: <Icons.Door />
   }
 ];
@@ -163,6 +423,16 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 2,
+    category: 'Materiale',
+    text: 'Che tipo di materiale preferisci?',
+    options: [
+      { id: 'pvc', label: 'PVC', materialFilter: 'pvc' },
+      { id: 'aluminum', label: 'Alluminio', materialFilter: 'aluminum' },
+      { id: 'advice', label: 'Ho bisogno di un consiglio' }
+    ]
+  },
+  {
+    id: 3,
     category: 'Contesto',
     text: 'In che situazione ti trovi?',
     options: [
@@ -172,7 +442,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     category: 'Priorità',
     text: 'Qual è il desiderio principale?',
     options: [
@@ -182,7 +452,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     category: 'Stile',
     text: 'Quale stile senti più tuo?',
     options: [
@@ -192,7 +462,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 5,
+    id: 6,
     category: 'Estetica',
     text: 'Cosa ti colpisce in una finestra?',
     options: [
@@ -202,7 +472,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     category: 'Clima',
     text: 'Dove si trova l\'immobile?',
     options: [
@@ -212,7 +482,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 7,
+    id: 8,
     category: 'Acustica',
     text: 'Com\'è la zona circostante?',
     options: [
@@ -222,7 +492,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 8,
+    id: 9,
     category: 'Spazio',
     text: 'Hai vincoli di spazio?',
     options: [
@@ -232,7 +502,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     category: 'Investimento',
     text: 'Hai già un\'idea del budget da dedicare ai nuovi serramenti?',
     options: [
@@ -242,7 +512,7 @@ const QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 10,
+    id: 11,
     category: 'Bonus',
     text: 'Ti interessano le detrazioni?',
     options: [
@@ -340,8 +610,11 @@ const AleplastQuiz = () => {
 
   const calculateResult = useMemo(() => {
     const q1Answer = answers[1];
+    const q2Answer = answers[2];
     const typeFilterOption = QUESTIONS[0].options.find(o => o.id === q1Answer);
+    const materialFilterOption = QUESTIONS[1].options.find(o => o.id === q2Answer);
     const requiredType = typeFilterOption?.typeFilter || 'window';
+    const requiredMaterial = materialFilterOption?.materialFilter;
 
     const userScores = { light: 0, thermal: 0, design: 0, value: 0, acoustic: 0 };
     
@@ -356,6 +629,9 @@ const AleplastQuiz = () => {
     });
 
     let filteredProducts = PRODUCTS.filter(p => p.type === requiredType);
+    if (requiredMaterial) {
+      filteredProducts = filteredProducts.filter(p => p.material === requiredMaterial);
+    }
     if (filteredProducts.length === 0) filteredProducts = PRODUCTS.filter(p => p.type === 'window');
 
     const scoredProducts = filteredProducts.map(product => {
@@ -675,9 +951,17 @@ const AleplastQuiz = () => {
             <div className="flex flex-col md:flex-row gap-12 items-center relative z-10">
               {/* Product Visual */}
               <div className="w-full md:w-1/2 aspect-square flex items-center justify-center bg-gradient-to-b from-white/5 to-transparent rounded-2xl border border-white/5 p-12 shadow-inner">
-                <div className="w-full h-full text-brand-accent drop-shadow-[0_0_15px_rgba(46,116,181,0.5)]">
-                  {winner.imagePlaceholder}
-                </div>
+                {winner.imageUrl ? (
+                  <img
+                    src={winner.imageUrl}
+                    alt={winner.name}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <div className="w-full h-full text-brand-accent drop-shadow-[0_0_15px_rgba(46,116,181,0.5)]">
+                    {winner.imagePlaceholder}
+                  </div>
+                )}
               </div>
               
               {/* Details */}
