@@ -968,12 +968,12 @@ const AleplastQuiz = () => {
             
             <div className="flex flex-col md:flex-row gap-12 items-center relative z-10">
               {/* Product Visual */}
-              <div className="w-full md:w-1/2 aspect-square flex items-center justify-center bg-gradient-to-b from-white/5 to-transparent rounded-2xl border border-white/5 p-12 shadow-inner">
+              <div className="w-full md:w-1/2 aspect-square flex items-center justify-center bg-gradient-to-b from-white/5 to-transparent rounded-2xl border border-white/5 shadow-inner overflow-hidden">
                 {winner.imageUrl ? (
                   <img
                     src={winner.imageUrl}
                     alt={winner.name}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full text-brand-accent drop-shadow-[0_0_15px_rgba(46,116,181,0.5)]">
