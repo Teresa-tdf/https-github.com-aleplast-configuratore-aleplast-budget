@@ -1022,7 +1022,7 @@ const AleplastQuiz = () => {
                   <img
                     src={winner.imageUrl}
                     alt={winner.name}
-                    className="w-full h-full object-cover rounded-2xl"
+                    className="w-full h-full object-cover object-center rounded-2xl"
                   />
                 ) : (
                   <div className="w-full h-full text-brand-accent drop-shadow-[0_0_15px_rgba(46,116,181,0.5)]">
