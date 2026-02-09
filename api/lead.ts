@@ -357,6 +357,53 @@ export default async function handler(req: any, res: any) {
         'Ti contatteremo a breve con la tua scheda prodotto personalizzata.',
       ].join('\n');
 
+  const baseUrl = process.env.PUBLIC_BASE_URL || 'https://quiz.aleplast.it';
+  const productImageUrl = resultCard?.name && payload.resultProductId
+    ? `${baseUrl}/products/${payload.resultProductId}.png`
+    : '';
+
+  const userEmailHtml = resultCard
+    ? `
+      <div style="font-family:Arial, sans-serif; background:#0A1628; color:#ffffff; padding:24px;">
+        <div style="max-width:640px; margin:0 auto; background:#0f1f36; border:1px solid #1e3354; border-radius:12px; overflow:hidden;">
+          <div style="padding:20px 24px; background:linear-gradient(135deg,#12315a,#0A1628);">
+            <div style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#D4AF37; font-weight:700;">
+              Scheda Prodotto
+            </div>
+            <div style="font-size:22px; font-weight:600; margin-top:6px;">
+              ${resultCard.name}
+            </div>
+            <div style="font-size:14px; color:#9fb4d6; margin-top:4px;">
+              ${resultCard.material} • ${resultCard.type}
+            </div>
+          </div>
+          ${productImageUrl ? `<img src="${productImageUrl}" alt="${resultCard.name}" style="width:100%; display:block; background:#0A1628;" />` : ''}
+          <div style="padding:24px;">
+            <p style="color:#dbe7ff; font-size:15px; line-height:1.6; margin:0 0 16px;">
+              ${resultCard.description}
+            </p>
+            <div style="color:#9fb4d6; font-size:13px; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">
+              Punti di forza
+            </div>
+            <ul style="margin:0; padding-left:18px; color:#ffffff; font-size:14px; line-height:1.6;">
+              ${resultCard.features.map(f => `<li>${f}</li>`).join('')}
+            </ul>
+            <p style="margin-top:18px; color:#9fb4d6; font-size:13px;">
+              Per qualsiasi domanda, rispondi a questa email o contattaci.
+            </p>
+          </div>
+        </div>
+      </div>
+    `.trim()
+    : `
+      <div style="font-family:Arial, sans-serif; background:#0A1628; color:#ffffff; padding:24px;">
+        <div style="max-width:640px; margin:0 auto; background:#0f1f36; border:1px solid #1e3354; border-radius:12px; padding:24px;">
+          <div style="font-size:18px; font-weight:600; margin-bottom:8px;">Grazie ${sanitize(payload.firstName)}</div>
+          <div style="color:#9fb4d6;">Ti contatteremo a breve con la tua scheda prodotto personalizzata.</div>
+        </div>
+      </div>
+    `.trim();
+
   const emailResponse = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -386,6 +433,7 @@ export default async function handler(req: any, res: any) {
       to: sanitize(payload.email),
       subject: 'La tua scheda prodotto Aleplast',
       text: userEmailText,
+      html: userEmailHtml,
     }),
   });
 
