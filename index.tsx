@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import './styles.css';
 import { createRoot } from 'react-dom/client';
 import { 
   ChevronRight, 
@@ -68,6 +69,7 @@ interface LeadData {
   phone: string;
   privacy: boolean;
   marketing: boolean;
+  honeypot: string;
 }
 
 // --- Icons Helper ---
@@ -574,10 +576,12 @@ const AleplastQuiz = () => {
     email: '',
     phone: '',
     privacy: false,
-    marketing: false
+    marketing: false,
+    honeypot: ''
   });
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof LeadData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // --- Logic ---
 
@@ -604,7 +608,7 @@ const AleplastQuiz = () => {
     }
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
@@ -616,13 +620,33 @@ const AleplastQuiz = () => {
     if (!leadData.privacy) errors.privacy = 'Devi accettare la privacy policy';
     
     setFormErrors(errors);
+    setSubmitError(null);
     
     if (Object.keys(errors).length === 0) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        setIsSubmitting(false);
+      try {
+        const payload = {
+          ...leadData,
+          answers,
+          resultProductId: calculateResult.winner?.id ?? null,
+        };
+
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
         setStep('result');
-      }, 1500);
+      } catch (err) {
+        setSubmitError('Errore durante l’invio. Riprova tra poco.');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -830,6 +854,18 @@ const AleplastQuiz = () => {
           </div>
 
           <form onSubmit={handleLeadSubmit} className="space-y-5 bg-white/5 p-8 rounded-2xl border border-white/10 backdrop-blur-md">
+            <div className="hidden" aria-hidden="true">
+              <label>
+                Company
+                <input
+                  type="text"
+                  value={leadData.honeypot}
+                  onChange={e => setLeadData({...leadData, honeypot: e.target.value})}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </label>
+            </div>
             <div className="grid grid-cols-2 gap-5">
               <div className="space-y-1">
                 <label className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Nome</label>
@@ -896,7 +932,16 @@ const AleplastQuiz = () => {
                   <Check className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" />
                 </div>
                 <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-                  Ho letto e accetto la <a href="#" className="text-brand-accent hover:underline">Privacy Policy</a>. *
+                  Ho letto e accetto la{' '}
+                  <a
+                    href="https://www.iubenda.com/privacy-policy/55512956"
+                    className="text-brand-accent hover:underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Privacy Policy
+                  </a>
+                  . *
                 </span>
               </label>
 
@@ -915,6 +960,10 @@ const AleplastQuiz = () => {
                 </span>
               </label>
             </div>
+
+            {submitError && (
+              <div className="text-red-400 text-sm">{submitError}</div>
+            )}
 
             <button 
               type="submit"
