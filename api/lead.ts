@@ -463,6 +463,27 @@ export default async function handler(req: any, res: any) {
   if (!userEmailResponse.ok) {
     const errorText = await userEmailResponse.text();
     console.error('Resend user email error:', userEmailResponse.status, errorText);
+
+    // Fallback: notify admin about user email failure
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${resendApiKey}`,
+      },
+      body: JSON.stringify({
+        from: resendFromEmail,
+        to: resendToEmail,
+        reply_to: resendReplyTo,
+        subject: 'Errore invio scheda al cliente',
+        text: [
+          'Non è stato possibile inviare la scheda al cliente.',
+          `Cliente: ${sanitize(payload.firstName)} ${sanitize(payload.lastName)}`,
+          `Email: ${sanitize(payload.email)}`,
+          `Errore: ${userEmailResponse.status} ${errorText}`,
+        ].join('\n'),
+      }),
+    });
     // Do not fail the request if user email fails; lead already saved.
   }
 
