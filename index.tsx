@@ -151,6 +151,7 @@ const PRODUCTS: Product[] = [
     description: 'Linee morbide e stile classico con profilo ribassato per più vetro. Ideale per ristrutturazioni tradizionali.',
     features: ['Profilo ribassato', 'Stile classico', 'Più vetro', 'Buon isolamento'],
     scores: { light: 7, thermal: 7, design: 6, value: 7, acoustic: 6 },
+    imageUrl: '/products/platinium-plus.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -161,6 +162,7 @@ const PRODUCTS: Product[] = [
     description: 'Design moderno e squadrato con profili sottili e vetro extra-light. Equilibrio tra stile e prestazioni.',
     features: ['Linee nette', 'Profilo sottile', 'Alta luminosità', 'Ottimo isolamento'],
     scores: { light: 7, thermal: 8, design: 8, value: 6, acoustic: 7 },
+    imageUrl: '/products/squareline.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -228,6 +230,7 @@ const PRODUCTS: Product[] = [
     description: 'Anta a scomparsa esterna: dall’esterno si vede quasi solo vetro. Estetica ultra-minimal.',
     features: ['Anta a scomparsa', 'Look tutto vetro', 'Nodo centrale ridotto', 'Design minimal'],
     scores: { light: 10, thermal: 7, design: 9, value: 5, acoustic: 7 },
+    imageUrl: '/products/titano-oc.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -249,6 +252,7 @@ const PRODUCTS: Product[] = [
     description: 'Finiture effetto acciaio e look industriale con prestazioni elevate e profili robusti.',
     features: ['Effetto acciaio', 'Design industrial', 'Alta resistenza', 'Ottimo isolamento'],
     scores: { light: 8, thermal: 8, design: 9, value: 5, acoustic: 8 },
+    imageUrl: '/products/titano-steel.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -259,6 +263,7 @@ const PRODUCTS: Product[] = [
     description: 'Alluminio solido e affidabile con taglio termico e ottima durata nel tempo.',
     features: ['Struttura robusta', 'Taglio termico', 'Design sobrio', 'Durabilità elevata'],
     scores: { light: 7, thermal: 7, design: 6, value: 6, acoustic: 7 },
+    imageUrl: '/products/futural.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -269,6 +274,7 @@ const PRODUCTS: Product[] = [
     description: 'Versione complanare con anta a scomparsa: profili sottili e grande luminosità.',
     features: ['Anta a scomparsa', 'Nodo centrale ridotto', 'Look minimale', 'Buon isolamento'],
     scores: { light: 9, thermal: 6, design: 8, value: 6, acoustic: 7 },
+    imageUrl: '/products/futural-oc.png',
     imagePlaceholder: <Icons.Window />
   },
   {
@@ -292,6 +298,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole evoluto con tenuta ermetica e grande luminosità. Ideale per grandi aperture.',
     features: ['Scorrimento leggero', 'Ottima tenuta', 'Nodo centrale ridotto', 'Alta luminosità'],
     scores: { light: 9, thermal: 8, design: 8, value: 6, acoustic: 7 },
+    imageUrl: '/products/prolux-slide.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -302,6 +309,7 @@ const PRODUCTS: Product[] = [
     description: 'Alzante scorrevole per grandi vetrate con profili ribassati e massima luce.',
     features: ['Grandi dimensioni', 'Soglia ribassata', 'Scorrimento fluido', 'Luce massima'],
     scores: { light: 10, thermal: 8, design: 9, value: 5, acoustic: 7 },
+    imageUrl: '/products/hst-motion.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -312,6 +320,7 @@ const PRODUCTS: Product[] = [
     description: 'Alzante scorrevole robusto per aperture monumentali e vetrate panoramiche.',
     features: ['Aperture grandi', 'Robustezza', 'Triplo vetro', 'Comfort elevato'],
     scores: { light: 9, thermal: 8, design: 8, value: 5, acoustic: 7 },
+    imageUrl: '/products/hst-premium.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -322,6 +331,7 @@ const PRODUCTS: Product[] = [
     description: 'Sistema scorrevole-vasistas salvaspazio con buona tenuta e versatilità d’uso.',
     features: ['Ribalta + scorrevole', 'Salvaspazio', 'Buona tenuta', 'Versatile'],
     scores: { light: 7, thermal: 7, design: 6, value: 7, acoustic: 6 },
+    imageUrl: '/products/psk.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -332,6 +342,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole semplice ed economico per aperture medie, pratico e affidabile.',
     features: ['Soluzione economica', 'Semplice da usare', 'Buon isolamento', 'Ingombro ridotto'],
     scores: { light: 6, thermal: 6, design: 5, value: 9, acoustic: 5 },
+    imageUrl: '/products/ekosol.png',
     imagePlaceholder: <Icons.Sliding />
   },
 
@@ -344,6 +355,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole minimal frame per massima trasparenza e impatto architettonico.',
     features: ['Profili quasi invisibili', 'Design premium', 'Grandi vetrate', 'Massima luce'],
     scores: { light: 10, thermal: 7, design: 10, value: 5, acoustic: 7 },
+    imageUrl: '/products/skyline.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -354,6 +366,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole super luminoso con nodo centrale ridotto e grande continuità visiva.',
     features: ['Nodo centrale sottile', 'Alta luminosità', 'Design moderno', 'Ottima scorrevolezza'],
     scores: { light: 9, thermal: 7, design: 9, value: 6, acoustic: 7 },
+    imageUrl: '/products/aluslide-lux.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -364,6 +377,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole robusto per grandi aperture con ottima manovrabilità.',
     features: ['Ante grandi', 'Scorrimento fluido', 'Struttura robusta', 'Design pulito'],
     scores: { light: 8, thermal: 7, design: 8, value: 6, acoustic: 7 },
+    imageUrl: '/products/aluslide-pro.png',
     imagePlaceholder: <Icons.Sliding />
   },
   {
@@ -374,6 +388,7 @@ const PRODUCTS: Product[] = [
     description: 'Scorrevole compatto per aperture medio-grandi con ingombro ridotto.',
     features: ['Compatto', 'Facile da usare', 'Ingombro minimo', 'Buon rapporto qualità/prezzo'],
     scores: { light: 7, thermal: 6, design: 6, value: 7, acoustic: 6 },
+    imageUrl: '/products/ms-slide.png',
     imagePlaceholder: <Icons.Sliding />
   },
 
@@ -386,6 +401,7 @@ const PRODUCTS: Product[] = [
     description: 'Ingressi in PVC con buon isolamento, design personalizzabile e ottima sicurezza.',
     features: ['Isolamento termico', 'Design personalizzabile', 'Sicurezza multipunto', 'Ampia scelta finiture'],
     scores: { light: 1, thermal: 7, design: 7, value: 7, acoustic: 6 },
+    imageUrl: '/products/portoncini-pvc.png',
     imagePlaceholder: <Icons.Door />
   },
   {
@@ -396,6 +412,7 @@ const PRODUCTS: Product[] = [
     description: 'Linea premium con pannelli HPL e isolamento elevato, pensata per chi vuole il massimo.',
     features: ['Uw fino a 1,2', 'Pannelli HPL', 'Sicurezza elevata', 'Design moderno'],
     scores: { light: 1, thermal: 9, design: 8, value: 5, acoustic: 8 },
+    imageUrl: '/products/cosmo.png',
     imagePlaceholder: <Icons.Door />
   },
   {
@@ -406,6 +423,7 @@ const PRODUCTS: Product[] = [
     description: 'Portoncini in alluminio con isolamento top, serratura automatica multipunto e design premium.',
     features: ['Ud fino a 0,84', 'Serratura automatica', 'Alta sicurezza', 'Design di pregio'],
     scores: { light: 1, thermal: 9, design: 9, value: 5, acoustic: 8 },
+    imageUrl: '/products/tenvis.png',
     imagePlaceholder: <Icons.Door />
   }
 ];
