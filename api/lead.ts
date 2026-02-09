@@ -396,7 +396,10 @@ export default async function handler(req: any, res: any) {
               <a href="${baseUrl}" style="display:inline-block; background:#2E74B5; color:#ffffff; text-decoration:none; padding:12px 18px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase;">
                 Richiedi preventivo
               </a>
-              <a href="https://wa.me/393515645413" style="display:inline-block; background:#22c55e; color:#ffffff; text-decoration:none; padding:12px 16px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase; margin-left:8px;">
+              <a href="https://wa.me/393515645413" style="display:inline-flex; align-items:center; gap:6px; background:#22c55e; color:#ffffff; text-decoration:none; padding:12px 14px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase; margin-left:8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="#ffffff" style="display:block;">
+                  <path d="M16.1 3C9.5 3 4.2 8.3 4.2 14.9c0 2.5.7 4.8 2.1 6.9L5 29l7.4-1.9c2 1.1 4.3 1.7 6.6 1.7 6.6 0 11.9-5.3 11.9-11.9C30.9 8.3 25.6 3 19 3h-2.9zm3.9 20.3c-1.6.8-3.4 1.1-5.2.9-2.2-.2-4.2-1.2-5.9-2.6l-.4-.3-4.3 1.1 1.2-4.2-.3-.4c-1-1.6-1.6-3.4-1.6-5.3 0-5.2 4.2-9.4 9.4-9.4h2.9c5.2 0 9.4 4.2 9.4 9.4 0 3.6-2 6.8-5.2 8.3zm3.2-5.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-.9-.3-1.7-1-.6-.5-1-1.1-1.1-1.3-.1-.2 0-.3.1-.4.1-.1.2-.3.3-.4.1-.1.1-.2.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.1.9 2.3.1.2 1.6 2.6 4 3.6.6.2 1 .4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/>
+                </svg>
                 WhatsApp
               </a>
             </div>
