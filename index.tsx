@@ -257,12 +257,11 @@ const QUESTIONS: Question[] = [
 
 const Logo = () => (
   <div className="flex flex-col items-center justify-center">
-    <div className="border-2 border-white w-10 h-10 flex items-center justify-center mb-2">
-      <div className="w-2 h-2 bg-white rounded-sm"></div>
-    </div>
-    <div className="text-2xl tracking-[0.2em] font-light text-white leading-none">
-      ALE<span className="font-bold">PLAST</span>
-    </div>
+    <img
+      src="/assets/aleplast-logo-white.png"
+      alt="Aleplast"
+      className="h-12 md:h-14 w-auto object-contain"
+    />
   </div>
 );
 
