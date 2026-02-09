@@ -358,6 +358,7 @@ export default async function handler(req: any, res: any) {
       ].join('\n');
 
   const baseUrl = process.env.PUBLIC_BASE_URL || 'https://quiz.aleplast.it';
+  const logoUrl = `${baseUrl}/assets/aleplast-logo-white.png`;
   const productImageUrl = resultCard?.name && payload.resultProductId
     ? `${baseUrl}/products/${payload.resultProductId}.png`
     : '';
@@ -367,8 +368,11 @@ export default async function handler(req: any, res: any) {
       <div style="font-family:Arial, sans-serif; background:#0A1628; color:#ffffff; padding:24px;">
         <div style="max-width:640px; margin:0 auto; background:#0f1f36; border:1px solid #1e3354; border-radius:12px; overflow:hidden;">
           <div style="padding:20px 24px; background:linear-gradient(135deg,#12315a,#0A1628);">
-            <div style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#D4AF37; font-weight:700;">
-              Scheda Prodotto
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+              <img src="${logoUrl}" alt="Aleplast" style="height:28px; width:auto;" />
+              <div style="font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#D4AF37; font-weight:700;">
+                Scheda Prodotto
+              </div>
             </div>
             <div style="font-size:22px; font-weight:600; margin-top:6px;">
               ${resultCard.name}
@@ -388,7 +392,12 @@ export default async function handler(req: any, res: any) {
             <ul style="margin:0; padding-left:18px; color:#ffffff; font-size:14px; line-height:1.6;">
               ${resultCard.features.map(f => `<li>${f}</li>`).join('')}
             </ul>
-            <p style="margin-top:18px; color:#9fb4d6; font-size:13px;">
+            <div style="margin-top:20px;">
+              <a href="${baseUrl}" style="display:inline-block; background:#2E74B5; color:#ffffff; text-decoration:none; padding:12px 18px; border-radius:8px; font-size:13px; letter-spacing:1px; text-transform:uppercase;">
+                Richiedi preventivo
+              </a>
+            </div>
+            <p style="margin-top:14px; color:#9fb4d6; font-size:13px;">
               Per qualsiasi domanda, rispondi a questa email o contattaci.
             </p>
           </div>
