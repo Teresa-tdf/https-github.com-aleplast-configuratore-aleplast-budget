@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './styles.css';
 import { createRoot } from 'react-dom/client';
 import { 
@@ -584,6 +584,29 @@ const AleplastQuiz = () => {
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof LeadData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const hcaptchaSiteKey = (import.meta as any).env?.VITE_HCAPTCHA_SITE_KEY || '';
+
+  useEffect(() => {
+    const maybeRender = () => {
+      const hcaptcha = (window as any).hcaptcha;
+      const container = document.getElementById('hcaptcha-container');
+      if (hcaptcha && container && !container.hasChildNodes()) {
+        hcaptcha.render(container, {
+          sitekey: hcaptchaSiteKey,
+          theme: 'dark',
+        });
+      }
+    };
+
+    if (hcaptchaSiteKey) {
+      const timer = setInterval(() => {
+        maybeRender();
+      }, 500);
+      setTimeout(() => clearInterval(timer), 5000);
+      return () => clearInterval(timer);
+    }
+    return undefined;
+  }, [hcaptchaSiteKey]);
 
   // --- Logic ---
 
@@ -623,7 +646,11 @@ const AleplastQuiz = () => {
 
     const hcaptcha = (window as any).hcaptcha;
     const hcaptchaToken = hcaptcha?.getResponse ? hcaptcha.getResponse() : '';
-    if (!hcaptchaToken) errors.hcaptchaToken = 'Verifica anti-spam necessaria';
+    if (!hcaptchaSiteKey) {
+      errors.hcaptchaToken = 'Captcha non configurato';
+    } else if (!hcaptchaToken) {
+      errors.hcaptchaToken = 'Verifica anti-spam necessaria';
+    }
     
     setFormErrors(errors);
     setSubmitError(null);
@@ -969,11 +996,7 @@ const AleplastQuiz = () => {
             </div>
 
             <div className="pt-2">
-              <div
-                className="h-captcha"
-                data-sitekey={(import.meta as any).env?.VITE_HCAPTCHA_SITE_KEY || ''}
-                data-theme="dark"
-              ></div>
+              <div id="hcaptcha-container" className="h-captcha" data-sitekey={hcaptchaSiteKey} data-theme="dark"></div>
               {formErrors.hcaptchaToken && (
                 <div className="text-red-400 text-xs mt-2">{formErrors.hcaptchaToken}</div>
               )}
