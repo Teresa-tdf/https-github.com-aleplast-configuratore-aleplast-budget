@@ -70,6 +70,7 @@ interface LeadData {
   privacy: boolean;
   marketing: boolean;
   honeypot: string;
+  hcaptchaToken: string;
 }
 
 // --- Icons Helper ---
@@ -577,7 +578,8 @@ const AleplastQuiz = () => {
     phone: '',
     privacy: false,
     marketing: false,
-    honeypot: ''
+    honeypot: '',
+    hcaptchaToken: ''
   });
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof LeadData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -618,6 +620,10 @@ const AleplastQuiz = () => {
     if (!leadData.email || !/\S+@\S+\.\S+/.test(leadData.email)) errors.email = 'Email non valida';
     if (!leadData.phone) errors.phone = 'Campo obbligatorio';
     if (!leadData.privacy) errors.privacy = 'Devi accettare la privacy policy';
+
+    const hcaptcha = (window as any).hcaptcha;
+    const hcaptchaToken = hcaptcha?.getResponse ? hcaptcha.getResponse() : '';
+    if (!hcaptchaToken) errors.hcaptchaToken = 'Verifica anti-spam necessaria';
     
     setFormErrors(errors);
     setSubmitError(null);
@@ -627,6 +633,7 @@ const AleplastQuiz = () => {
       try {
         const payload = {
           ...leadData,
+          hcaptchaToken,
           answers,
           resultProductId: calculateResult.winner?.id ?? null,
         };
@@ -959,6 +966,17 @@ const AleplastQuiz = () => {
                   Acconsento a ricevere comunicazioni personalizzate (Opzionale).
                 </span>
               </label>
+            </div>
+
+            <div className="pt-2">
+              <div
+                className="h-captcha"
+                data-sitekey={(import.meta as any).env?.VITE_HCAPTCHA_SITE_KEY || ''}
+                data-theme="dark"
+              ></div>
+              {formErrors.hcaptchaToken && (
+                <div className="text-red-400 text-xs mt-2">{formErrors.hcaptchaToken}</div>
+              )}
             </div>
 
             {submitError && (

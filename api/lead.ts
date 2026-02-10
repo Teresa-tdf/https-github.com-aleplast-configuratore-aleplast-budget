@@ -10,6 +10,7 @@ type LeadPayload = {
   answers: Record<number, string>;
   resultProductId: string | null;
   honeypot?: string;
+  hcaptchaToken?: string;
 };
 
 const REQUIRED_FIELDS: Array<keyof LeadPayload> = [
@@ -264,12 +265,16 @@ export default async function handler(req: any, res: any) {
   const resendFromEmail = process.env.RESEND_FROM_EMAIL;
   const resendToEmail = process.env.RESEND_TO_EMAIL;
   const resendReplyTo = process.env.RESEND_REPLY_TO || 'info@aleplast.it';
+  const hcaptchaSecret = process.env.HCAPTCHA_SECRET;
 
   if (!supabaseUrl || !serviceRoleKey) {
     return res.status(500).json({ error: 'Server not configured' });
   }
   if (!resendApiKey || !resendFromEmail || !resendToEmail) {
     return res.status(500).json({ error: 'Email not configured' });
+  }
+  if (!hcaptchaSecret) {
+    return res.status(500).json({ error: 'Captcha not configured' });
   }
 
   const rawBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
@@ -278,6 +283,20 @@ export default async function handler(req: any, res: any) {
   const honeypot = (payload.honeypot || '').trim();
   if (honeypot.length > 0) {
     return res.status(400).json({ error: 'Invalid submission' });
+  }
+
+  if (!payload.hcaptchaToken) {
+    return res.status(400).json({ error: 'Captcha required' });
+  }
+
+  const captchaResponse = await fetch('https://hcaptcha.com/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `secret=${encodeURIComponent(hcaptchaSecret)}&response=${encodeURIComponent(payload.hcaptchaToken)}`,
+  });
+  const captchaJson = await captchaResponse.json();
+  if (!captchaJson.success) {
+    return res.status(400).json({ error: 'Captcha failed' });
   }
 
   const ip = getClientIp(req);
