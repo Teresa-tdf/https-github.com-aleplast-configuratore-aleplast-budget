@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import './styles.css';
 import { createRoot } from 'react-dom/client';
 import { 
@@ -70,7 +70,6 @@ interface LeadData {
   privacy: boolean;
   marketing: boolean;
   honeypot: string;
-  hcaptchaToken: string;
 }
 
 // --- Icons Helper ---
@@ -579,28 +578,10 @@ const AleplastQuiz = () => {
     privacy: false,
     marketing: false,
     honeypot: '',
-    hcaptchaToken: ''
   });
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof LeadData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const hcaptchaSiteKey = (import.meta as any).env?.VITE_HCAPTCHA_SITE_KEY || '';
-
-  useEffect(() => {
-    (window as any).onHCaptchaLoad = () => {
-      const hcaptcha = (window as any).hcaptcha;
-      const container = document.getElementById('hcaptcha-container');
-      if (hcaptcha && container && !container.hasChildNodes()) {
-        hcaptcha.render(container, {
-          sitekey: hcaptchaSiteKey,
-          theme: 'dark',
-        });
-      }
-    };
-    return () => {
-      (window as any).onHCaptchaLoad = undefined;
-    };
-  }, [hcaptchaSiteKey]);
 
   // --- Logic ---
 
@@ -637,14 +618,6 @@ const AleplastQuiz = () => {
     if (!leadData.email || !/\S+@\S+\.\S+/.test(leadData.email)) errors.email = 'Email non valida';
     if (!leadData.phone) errors.phone = 'Campo obbligatorio';
     if (!leadData.privacy) errors.privacy = 'Devi accettare la privacy policy';
-
-    const hcaptcha = (window as any).hcaptcha;
-    const hcaptchaToken = hcaptcha?.getResponse ? hcaptcha.getResponse() : '';
-    if (!hcaptchaSiteKey) {
-      errors.hcaptchaToken = 'Captcha non configurato';
-    } else if (!hcaptchaToken) {
-      errors.hcaptchaToken = 'Verifica anti-spam necessaria';
-    }
     
     setFormErrors(errors);
     setSubmitError(null);
@@ -654,7 +627,6 @@ const AleplastQuiz = () => {
       try {
         const payload = {
           ...leadData,
-          hcaptchaToken,
           answers,
           resultProductId: calculateResult.winner?.id ?? null,
         };
@@ -987,13 +959,6 @@ const AleplastQuiz = () => {
                   Acconsento a ricevere comunicazioni personalizzate (Opzionale).
                 </span>
               </label>
-            </div>
-
-            <div className="pt-2">
-              <div id="hcaptcha-container" className="h-captcha" data-sitekey={hcaptchaSiteKey} data-theme="dark"></div>
-              {formErrors.hcaptchaToken && (
-                <div className="text-red-400 text-xs mt-2">{formErrors.hcaptchaToken}</div>
-              )}
             </div>
 
             {submitError && (
