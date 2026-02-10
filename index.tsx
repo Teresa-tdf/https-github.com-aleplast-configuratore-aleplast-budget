@@ -587,7 +587,7 @@ const AleplastQuiz = () => {
   const hcaptchaSiteKey = (import.meta as any).env?.VITE_HCAPTCHA_SITE_KEY || '';
 
   useEffect(() => {
-    const maybeRender = () => {
+    (window as any).onHCaptchaLoad = () => {
       const hcaptcha = (window as any).hcaptcha;
       const container = document.getElementById('hcaptcha-container');
       if (hcaptcha && container && !container.hasChildNodes()) {
@@ -597,15 +597,9 @@ const AleplastQuiz = () => {
         });
       }
     };
-
-    if (hcaptchaSiteKey) {
-      const timer = setInterval(() => {
-        maybeRender();
-      }, 500);
-      setTimeout(() => clearInterval(timer), 5000);
-      return () => clearInterval(timer);
-    }
-    return undefined;
+    return () => {
+      (window as any).onHCaptchaLoad = undefined;
+    };
   }, [hcaptchaSiteKey]);
 
   // --- Logic ---
